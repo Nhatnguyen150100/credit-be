@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "06d7b1b8-9a6c-44a9-bc68-26e81c4dd47c",
+		"name": "Credit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38240534"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"enter_user_name\",\r\n    \"password\": \"enter_password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/admin/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Information",
+			"item": [
+				{
+					"name": "Create info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzI4ODkxNjAwLCJleHAiOjE3Mjg5NzgwMDB9.l6w5f2ZXoyPq_KlUazZnH5hzqKSYtwqt1e1XaLRWBJ89RzEyDJbMzqAFjThs3QP1zOFIFcJ6KKf5mDRCmDLcihbmctHU5SNGpKAGL8lSsUVjZ_0zSLbeFJGuMrii2-g9rQw1oKdpNxTiUDHP4vjh0Cq5TvsJ5qdbNM1zuFbu9jvWPjuxrmBqkZMe7c2bHcrXwdYmHV2T6vEUfZofa2hMUHaVBQB4y1k8nZfINaHVmD8yvLaqiorLb0lCYcCluDt6POINftqNwvUg2kLV60nJvQtzxDUl2CCebvqSVaMF2OmucW54b8u-Fk8Dbudq6u9auT46k7o0mi-fKXjX3D_J3w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "123232432432432432",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "order_code",
+									"value": " ORD125344534",
+									"type": "text"
+								},
+								{
+									"key": "review_results",
+									"value": " Approved",
+									"type": "text"
+								},
+								{
+									"key": "loan_amount",
+									"value": " 5000000",
+									"type": "text"
+								},
+								{
+									"key": "amount_to_the_account",
+									"value": " 4800000",
+									"type": "text"
+								},
+								{
+									"key": "confirm_loan_status",
+									"value": " Confirmed",
+									"type": "text"
+								},
+								{
+									"key": "application_period",
+									"value": " 12 months",
+									"type": "text"
+								},
+								{
+									"key": "loan_date",
+									"value": " 2024-01-15",
+									"type": "text"
+								},
+								{
+									"key": "overdue",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "amount_payable",
+									"value": " 5200000",
+									"type": "text"
+								},
+								{
+									"key": "order_type",
+									"value": " Personal Loan",
+									"type": "text"
+								},
+								{
+									"key": "assessment_score",
+									"value": " 85",
+									"type": "text"
+								},
+								{
+									"key": "loan_cycle",
+									"value": " 12",
+									"type": "text"
+								},
+								{
+									"key": "application_chanel",
+									"value": " Online",
+									"type": "text"
+								},
+								{
+									"key": "order_status",
+									"value": " Active",
+									"type": "text"
+								},
+								{
+									"key": "date_payable",
+									"value": " 2025-01-15",
+									"type": "text"
+								},
+								{
+									"key": "staff_withdraw_payment",
+									"value": " Staff001",
+									"type": "text"
+								},
+								{
+									"key": "frontEndImg",
+									"type": "file",
+									"src": "/C:/Users/nhatn/Downloads/european-shorthair-8601492_640.jpg"
+								},
+								{
+									"key": "backEndImg",
+									"type": "file",
+									"src": "/C:/Users/nhatn/Downloads/z5892286375435_cb2bad9ef42b231d1f0a084275e7de44 (1).jpg"
+								},
+								{
+									"key": "loan_type",
+									"value": "type",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/information",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"information"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzI4ODkxNjAwLCJleHAiOjE3Mjg5NzgwMDB9.l6w5f2ZXoyPq_KlUazZnH5hzqKSYtwqt1e1XaLRWBJ89RzEyDJbMzqAFjThs3QP1zOFIFcJ6KKf5mDRCmDLcihbmctHU5SNGpKAGL8lSsUVjZ_0zSLbeFJGuMrii2-g9rQw1oKdpNxTiUDHP4vjh0Cq5TvsJ5qdbNM1zuFbu9jvWPjuxrmBqkZMe7c2bHcrXwdYmHV2T6vEUfZofa2hMUHaVBQB4y1k8nZfINaHVmD8yvLaqiorLb0lCYcCluDt6POINftqNwvUg2kLV60nJvQtzxDUl2CCebvqSVaMF2OmucW54b8u-Fk8Dbudq6u9auT46k7o0mi-fKXjX3D_J3w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "12121212121",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "order_code",
+									"value": " ORD13234",
+									"type": "text"
+								},
+								{
+									"key": "review_results",
+									"value": " Approved",
+									"type": "text"
+								},
+								{
+									"key": "loan_amount",
+									"value": " 5000",
+									"type": "text"
+								},
+								{
+									"key": "amount_to_the_account",
+									"value": " 4800000",
+									"type": "text"
+								},
+								{
+									"key": "confirm_loan_status",
+									"value": " Confirmed",
+									"type": "text"
+								},
+								{
+									"key": "application_period",
+									"value": " 8 months",
+									"type": "text"
+								},
+								{
+									"key": "loan_date",
+									"value": " 2024-01-15",
+									"type": "text"
+								},
+								{
+									"key": "overdue",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "amount_payable",
+									"value": " 5200000",
+									"type": "text"
+								},
+								{
+									"key": "order_type",
+									"value": " Personal Loan",
+									"type": "text"
+								},
+								{
+									"key": "assessment_score",
+									"value": " 85",
+									"type": "text"
+								},
+								{
+									"key": "loan_cycle",
+									"value": " 12",
+									"type": "text"
+								},
+								{
+									"key": "application_chanel",
+									"value": " Online",
+									"type": "text"
+								},
+								{
+									"key": "order_status",
+									"value": " Active",
+									"type": "text"
+								},
+								{
+									"key": "date_payable",
+									"value": " 2025-01-15",
+									"type": "text"
+								},
+								{
+									"key": "staff_withdraw_payment",
+									"value": " Staff001",
+									"type": "text"
+								},
+								{
+									"key": "loan_type",
+									"value": "type",
+									"type": "text"
+								},
+								{
+									"key": "frontEndImg",
+									"type": "file",
+									"src": "/C:/Users/nhatn/Downloads/logo.png"
+								},
+								{
+									"key": "backEndImg",
+									"type": "file",
+									"src": "/C:/Users/nhatn/Downloads/Untitled - Copy.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/information/670cea4b9726f51e20e30bca",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"information",
+								"670cea4b9726f51e20e30bca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/information/12121212121",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"information",
+								"12121212121"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzI4ODkxNjAwLCJleHAiOjE3Mjg5NzgwMDB9.l6w5f2ZXoyPq_KlUazZnH5hzqKSYtwqt1e1XaLRWBJ89RzEyDJbMzqAFjThs3QP1zOFIFcJ6KKf5mDRCmDLcihbmctHU5SNGpKAGL8lSsUVjZ_0zSLbeFJGuMrii2-g9rQw1oKdpNxTiUDHP4vjh0Cq5TvsJ5qdbNM1zuFbu9jvWPjuxrmBqkZMe7c2bHcrXwdYmHV2T6vEUfZofa2hMUHaVBQB4y1k8nZfINaHVmD8yvLaqiorLb0lCYcCluDt6POINftqNwvUg2kLV60nJvQtzxDUl2CCebvqSVaMF2OmucW54b8u-Fk8Dbudq6u9auT46k7o0mi-fKXjX3D_J3w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/information",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"information"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzI4ODkxNjAwLCJleHAiOjE3Mjg5NzgwMDB9.l6w5f2ZXoyPq_KlUazZnH5hzqKSYtwqt1e1XaLRWBJ89RzEyDJbMzqAFjThs3QP1zOFIFcJ6KKf5mDRCmDLcihbmctHU5SNGpKAGL8lSsUVjZ_0zSLbeFJGuMrii2-g9rQw1oKdpNxTiUDHP4vjh0Cq5TvsJ5qdbNM1zuFbu9jvWPjuxrmBqkZMe7c2bHcrXwdYmHV2T6vEUfZofa2hMUHaVBQB4y1k8nZfINaHVmD8yvLaqiorLb0lCYcCluDt6POINftqNwvUg2kLV60nJvQtzxDUl2CCebvqSVaMF2OmucW54b8u-Fk8Dbudq6u9auT46k7o0mi-fKXjX3D_J3w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/information/670cef54a64ee2ac02609ead",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"information",
+								"670cef54a64ee2ac02609ead"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
