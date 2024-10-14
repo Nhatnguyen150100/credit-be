@@ -13,7 +13,7 @@ const informationController = {
         limit,
         nameLike
       );
-      res.status(200).json(data);
+      res.status(200).json({ data, message });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -81,8 +81,12 @@ const informationController = {
       const front_end_user_id_img = req.front_end_user_id_img;
       const back_end_user_id_img = req.back_end_user_id_img;
       const { id } = req.params;
-      if(!id) return res.status(400).json({ message: 'Invalid id' });
-      const dataUpdate = {...req.body, front_end_user_id_img, back_end_user_id_img};
+      if (!id) return res.status(400).json({ message: "Invalid id" });
+      const dataUpdate = {
+        ...req.body,
+        front_end_user_id_img,
+        back_end_user_id_img,
+      };
       const { message, data } = await informationService.updateInformation(
         id,
         dataUpdate
@@ -97,6 +101,18 @@ const informationController = {
       const { id } = req.params;
       const { message, data } = await informationService.getInformation(id);
       res.status(200).json({ message, data });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  checkUserExits: async (req, res) => {
+    try {
+      const { user_id } = req.body;
+      const { message, data } = await informationService.checkUserExits(
+        user_id
+      );
+      if (data) return res.status(200).json({ message, data });
+      res.status(400).json({ message: "error" });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

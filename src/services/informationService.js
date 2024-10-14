@@ -88,15 +88,35 @@ const informationService = {
       }
     });
   },
-  getInformation: (user_id) => {
+  checkUserExits: (user_id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const info = await Information.findOne({ user_id });
-        const data = {...info._doc}
+        const rs = await Information.findOne({ user_id });
+        if (rs) {
+          return resolve({
+            data: rs,
+            message: "User exits!",
+          });
+        } else {
+          return resolve({
+            data: null,
+            message: "User not exits!",
+          });
+        }
+      } catch (error) {
+        console.log(error.message);
+        reject(error.message);
+      }
+    });
+  },
+  getInformation: (_id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const info = await Information.findById(_id);
+        const data = { ...info._doc };
         delete data.front_end_user_id_img;
         delete data.back_end_user_id_img;
         delete data.user_id;
-        delete data.name;
         if (data) {
           return resolve({
             data,
