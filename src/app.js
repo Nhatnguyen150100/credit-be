@@ -42,7 +42,7 @@ app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(static_(join(__dirname, "public")));
+app.use(express.static(join(__dirname, "..", "public")));
 
 app.use("/v1/information", informationRouter);
 app.use("/v1/admin", authRouter);
@@ -52,4 +52,3 @@ app.listen(process.env.PORT || 3000, () => {
 });
 
 export default app;
-

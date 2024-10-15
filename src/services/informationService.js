@@ -114,9 +114,9 @@ const informationService = {
       try {
         const info = await Information.findById(_id);
         const data = { ...info._doc };
-        delete data.front_end_user_id_img;
-        delete data.back_end_user_id_img;
-        delete data.user_id;
+        // delete data.front_end_user_id_img;
+        // delete data.back_end_user_id_img;
+        // delete data.user_id;
         if (data) {
           return resolve({
             data,

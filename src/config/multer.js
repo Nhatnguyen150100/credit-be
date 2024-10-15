@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
     } else {
       return cb(new Error("Unknown field"));
     }
-    const filePath = `${customName}_${Date.now()}${extension}`;
+    const filePath = `${customName}${extension}`;
     req[`${customName}_user_id_img`] = `${
       process.env.BASE_URL_SERVER
     }/user_id_img/${user_id ?? id}/${filePath}`;
