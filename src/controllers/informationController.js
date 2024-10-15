@@ -15,7 +15,7 @@ const informationController = {
       );
       res.status(200).json({ data, message });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error });
     }
   },
   saveInformation: async (req, res) => {
@@ -23,7 +23,7 @@ const informationController = {
       const front_end_user_id_img = req.front_end_user_id_img;
       const back_end_user_id_img = req.back_end_user_id_img;
       if (!(front_end_user_id_img || back_end_user_id_img)) {
-        res.status(400).json({
+        return res.status(400).json({
           message: "front_end_user_id_img or back_end_user_id_img is required",
         });
       }
@@ -73,7 +73,7 @@ const informationController = {
       });
       res.status(200).json({ message, data });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error });
     }
   },
   updateInformation: async (req, res) => {
@@ -93,7 +93,7 @@ const informationController = {
       );
       res.status(200).json({ message, data });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error });
     }
   },
   getInformation: async (req, res) => {
@@ -102,7 +102,7 @@ const informationController = {
       const { message, data } = await informationService.getInformation(id);
       res.status(200).json({ message, data });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error });
     }
   },
   checkUserExits: async (req, res) => {
@@ -114,7 +114,7 @@ const informationController = {
       if (data) return res.status(200).json({ message, data });
       res.status(400).json({ message: "error" });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error });
     }
   },
   deleteInformation: async (req, res) => {
@@ -123,7 +123,7 @@ const informationController = {
       const { message } = await informationService.deleteInformation(id);
       res.status(200).json({ message });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error });
     }
   },
 };
