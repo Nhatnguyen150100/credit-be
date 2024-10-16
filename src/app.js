@@ -47,8 +47,8 @@ app.use(express.static(join(__dirname, "..", "public")));
 app.use("/v1/information", informationRouter);
 app.use("/v1/admin", authRouter);
 
-app.listen(process.env.PORT || 3000, () => {
-  log("server listening on port: " + (process.env.PORT || 3000));
+app.listen(process.env.PORT || 8081, () => {
+  log("server listening on port: " + (process.env.PORT || 8081));
 });
 
 export default app;
