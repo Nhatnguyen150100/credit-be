@@ -89,7 +89,6 @@ const informationService = {
     });
   },
   checkUserExits: (user_id) => {
-    console.log("🚀 ~ user_id:", user_id)
     return new Promise(async (resolve, reject) => {
       try {
         const rs = await Information.findOne({ user_id });
@@ -115,9 +114,6 @@ const informationService = {
       try {
         const info = await Information.findById(_id);
         const data = { ...info._doc };
-        // delete data.front_end_user_id_img;
-        // delete data.back_end_user_id_img;
-        // delete data.user_id;
         if (data) {
           return resolve({
             data,
