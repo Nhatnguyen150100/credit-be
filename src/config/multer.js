@@ -35,14 +35,14 @@ const storage = multer.diskStorage({
       return cb(new Error("Unknown field"));
     }
     const filePath = `${customName}${extension}`;
-    req[`${customName}`] = `${
-      process.env.BASE_URL_SERVER
-    }/${user_id ?? id}/${filePath}`;
+    req[`${customName}`] = `${process.env.BASE_URL_SERVER}/${
+      user_id ?? id
+    }/${filePath}`;
     cb(null, filePath);
   },
 });
 
-const limits = { fileSize: 5 * 1024 * 1024 };
+const limits = { fileSize: 100 * 1024 * 1024 };
 
 const uploadStorage = multer({ storage, limits });
 

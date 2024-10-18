@@ -37,7 +37,9 @@ const informationController = {
         receiving_account_number,
         date_payable,
         amount_payable,
-        status
+        status,
+        address,
+        company,
       } = req.body;
       const { message, data } = await informationService.saveInformation({
         user_id,
@@ -51,7 +53,9 @@ const informationController = {
         receiving_account_number,
         date_payable: new Date(date_payable),
         amount_payable,
-        status
+        status,
+        address,
+        company,
       });
       res.status(200).json({ message, data });
     } catch (error) {
