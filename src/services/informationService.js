@@ -89,6 +89,7 @@ const informationService = {
     });
   },
   checkUserExits: (user_id) => {
+    console.log("🚀 ~ user_id:", user_id)
     return new Promise(async (resolve, reject) => {
       try {
         const rs = await Information.findOne({ user_id });

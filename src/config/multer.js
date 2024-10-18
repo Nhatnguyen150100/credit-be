@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
       "..",
       "..",
       "public",
-      "user_id_img",
       user_id ?? id ?? "anonymous"
     );
     fs.mkdir(uploadDir, { recursive: true }, (err) => {
@@ -27,16 +26,18 @@ const storage = multer.diskStorage({
     const extension = path.extname(file.originalname);
     let customName;
     if (file.fieldname === "frontEndImg") {
-      customName = `front_end`;
+      customName = `front_end_user_id_img`;
     } else if (file.fieldname === "backEndImg") {
-      customName = `back_end`;
+      customName = `back_end_user_id_img`;
+    } else if (file.fieldname === "userTakeIdImg") {
+      customName = `user_take_id_img`;
     } else {
       return cb(new Error("Unknown field"));
     }
     const filePath = `${customName}${extension}`;
-    req[`${customName}_user_id_img`] = `${
+    req[`${customName}`] = `${
       process.env.BASE_URL_SERVER
-    }/user_id_img/${user_id ?? id}/${filePath}`;
+    }/${user_id ?? id}/${filePath}`;
     cb(null, filePath);
   },
 });

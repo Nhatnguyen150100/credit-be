@@ -19,6 +19,7 @@ informationRouter.post(
   "/",
   tokenMiddleware.verifyTokenAdmin,
   uploadStorage.fields([
+    { name: "userTakeIdImg", maxCount: 1 },
     { name: "frontEndImg", maxCount: 1 },
     { name: "backEndImg", maxCount: 1 },
   ]),
@@ -29,6 +30,7 @@ informationRouter.put(
   "/:id",
   tokenMiddleware.verifyTokenAdmin,
   uploadStorage.fields([
+    { name: "userTakeIdImg", maxCount: 1 },
     { name: "frontEndImg", maxCount: 1 },
     { name: "backEndImg", maxCount: 1 },
   ]),

@@ -13,6 +13,7 @@ import { log } from "console";
 import informationRouter from "./routes/informationRouter";
 import authRouter from "./routes/authRouter";
 import connectDB from "./config/database";
+import bankRouter from "./routes/bankRouter";
 
 connectDB();
 
@@ -45,6 +46,7 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, "..", "public")));
 
 app.use("/v1/information", informationRouter);
+app.use("/v1/bank", bankRouter);
 app.use("/v1/admin", authRouter);
 
 app.listen(process.env.PORT || 8081, () => {

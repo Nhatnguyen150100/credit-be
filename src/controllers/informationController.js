@@ -22,54 +22,36 @@ const informationController = {
     try {
       const front_end_user_id_img = req.front_end_user_id_img;
       const back_end_user_id_img = req.back_end_user_id_img;
+      const user_take_id_img = req.user_take_id_img;
       if (!(front_end_user_id_img || back_end_user_id_img)) {
         return res.status(400).json({
           message: "front_end_user_id_img or back_end_user_id_img is required",
         });
       }
       const {
-        order_code,
-        review_results,
-        loan_amount,
-        amount_to_the_account,
-        confirm_loan_status,
-        application_period,
-        loan_date,
-        overdue,
-        amount_payable,
-        order_type,
-        assessment_score,
-        loan_cycle,
-        loan_type,
-        application_chanel,
-        order_status,
-        date_payable,
-        staff_withdraw_payment,
         user_id,
         name,
+        phone_number,
+        loan_amount,
+        loan_date,
+        receiving_account_number,
+        date_payable,
+        amount_payable,
+        status
       } = req.body;
       const { message, data } = await informationService.saveInformation({
-        order_code,
-        review_results,
-        loan_amount,
-        amount_to_the_account,
-        confirm_loan_status,
-        application_period,
-        loan_date,
-        overdue,
-        amount_payable,
-        order_type,
-        assessment_score,
-        loan_cycle,
-        loan_type,
-        application_chanel,
-        order_status,
-        date_payable,
-        staff_withdraw_payment,
-        front_end_user_id_img,
-        back_end_user_id_img,
         user_id,
         name,
+        user_take_id_img,
+        front_end_user_id_img,
+        back_end_user_id_img,
+        phone_number,
+        loan_amount,
+        loan_date: new Date(loan_date),
+        receiving_account_number,
+        date_payable: new Date(date_payable),
+        amount_payable,
+        status
       });
       res.status(200).json({ message, data });
     } catch (error) {
@@ -80,10 +62,12 @@ const informationController = {
     try {
       const front_end_user_id_img = req.front_end_user_id_img;
       const back_end_user_id_img = req.back_end_user_id_img;
+      const user_take_id_img = req.user_take_id_img;
       const { id } = req.params;
       if (!id) return res.status(400).json({ message: "Invalid id" });
       const dataUpdate = {
         ...req.body,
+        user_take_id_img,
         front_end_user_id_img,
         back_end_user_id_img,
       };
