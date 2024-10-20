@@ -21,7 +21,7 @@ informationRouter.post(
   uploadStorage.fields([
     { name: "userTakeIdImg", maxCount: 1 },
     { name: "frontEndImg", maxCount: 1 },
-    { name: "backEndImg", maxCount: 1 },
+    // { name: "backEndImg", maxCount: 1 },
   ]),
   informationController.saveInformation
 );
@@ -32,7 +32,7 @@ informationRouter.put(
   uploadStorage.fields([
     { name: "userTakeIdImg", maxCount: 1 },
     { name: "frontEndImg", maxCount: 1 },
-    { name: "backEndImg", maxCount: 1 },
+    // { name: "backEndImg", maxCount: 1 },
   ]),
   informationController.updateInformation
 );

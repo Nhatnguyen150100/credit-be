@@ -75,7 +75,7 @@ const informationController = {
         ...req.body,
         user_take_id_img,
         front_end_user_id_img,
-        back_end_user_id_img,
+        // back_end_user_id_img,
       };
       const { message, data } = await informationService.updateInformation(
         id,
