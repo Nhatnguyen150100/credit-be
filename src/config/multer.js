@@ -27,8 +27,8 @@ const storage = multer.diskStorage({
     let customName;
     if (file.fieldname === "frontEndImg") {
       customName = `front_end_user_id_img`;
-    } else if (file.fieldname === "backEndImg") {
-      customName = `back_end_user_id_img`;
+      // } else if (file.fieldname === "backEndImg") {
+      //   customName = `back_end_user_id_img`;
     } else if (file.fieldname === "userTakeIdImg") {
       customName = `user_take_id_img`;
     } else {

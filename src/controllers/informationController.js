@@ -21,11 +21,11 @@ const informationController = {
   saveInformation: async (req, res) => {
     try {
       const front_end_user_id_img = req.front_end_user_id_img;
-      const back_end_user_id_img = req.back_end_user_id_img;
+      // const back_end_user_id_img = req.back_end_user_id_img;
       const user_take_id_img = req.user_take_id_img;
       if (!(front_end_user_id_img || back_end_user_id_img)) {
         return res.status(400).json({
-          message: "front_end_user_id_img or back_end_user_id_img is required",
+          message: "front_end_user_id_img or front_end_user_id_img is required",
         });
       }
       const {
@@ -40,13 +40,14 @@ const informationController = {
         status,
         address,
         company,
+        bank_name,
       } = req.body;
       const { message, data } = await informationService.saveInformation({
         user_id,
         name,
         user_take_id_img,
         front_end_user_id_img,
-        back_end_user_id_img,
+        // back_end_user_id_img,
         phone_number,
         loan_amount,
         loan_date: new Date(loan_date),
@@ -56,6 +57,7 @@ const informationController = {
         status,
         address,
         company,
+        bank_name,
       });
       res.status(200).json({ message, data });
     } catch (error) {
@@ -65,7 +67,7 @@ const informationController = {
   updateInformation: async (req, res) => {
     try {
       const front_end_user_id_img = req.front_end_user_id_img;
-      const back_end_user_id_img = req.back_end_user_id_img;
+      // const back_end_user_id_img = req.back_end_user_id_img;
       const user_take_id_img = req.user_take_id_img;
       const { id } = req.params;
       if (!id) return res.status(400).json({ message: "Invalid id" });
