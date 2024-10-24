@@ -43,4 +43,11 @@ informationRouter.delete(
   informationController.deleteInformation
 );
 
+informationRouter.post(
+  "/delete-multi",
+  tokenMiddleware.verifyTokenAdmin,
+  informationController.deleteMultiInfo
+);
+
 export default informationRouter;
+

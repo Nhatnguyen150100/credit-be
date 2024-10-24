@@ -8,10 +8,15 @@ const informationController = {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
       const nameLike = req.query.nameLike || "";
+      const { phoneNumber, status, datePayable, userId } = req.query;
       const { message, data } = await informationService.getAllInformation(
         page,
         limit,
-        nameLike
+        nameLike,
+        userId,
+        phoneNumber,
+        status,
+        datePayable
       );
       res.status(200).json({ data, message });
     } catch (error) {
@@ -23,11 +28,6 @@ const informationController = {
       const front_end_user_id_img = req.front_end_user_id_img;
       // const back_end_user_id_img = req.back_end_user_id_img;
       const user_take_id_img = req.user_take_id_img;
-      if (!(front_end_user_id_img || back_end_user_id_img)) {
-        return res.status(400).json({
-          message: "front_end_user_id_img or front_end_user_id_img is required",
-        });
-      }
       const {
         user_id,
         name,
@@ -111,6 +111,14 @@ const informationController = {
     try {
       const { id } = req.params;
       const { message } = await informationService.deleteInformation(id);
+      res.status(200).json({ message });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
+  deleteMultiInfo: async (req, res) => {
+    try {
+      const { message } = await informationService.deleteMultiInfo(req.body);
       res.status(200).json({ message });
     } catch (error) {
       res.status(500).json({ message: error });
