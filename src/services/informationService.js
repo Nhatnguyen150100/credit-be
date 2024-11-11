@@ -171,7 +171,7 @@ const informationService = {
   updateStatusMultiInfo: () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const today = dayjs().toDate();
+        const today = dayjs().startOf('day').toDate();
         const users = await Information.find({
           date_payable: { $lt: today },
           status: { $ne: "OVER_DATE" },
