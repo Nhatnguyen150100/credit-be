@@ -49,5 +49,8 @@ informationRouter.post(
   informationController.deleteMultiInfo
 );
 
+
+informationRouter.post("/update-multi-info", tokenMiddleware.verifyTokenAdmin, informationController.updateStatusMultiInfo);
+
 export default informationRouter;
 

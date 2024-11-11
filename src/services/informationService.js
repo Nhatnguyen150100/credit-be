@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 const { default: Information } = require("../models/infomation");
 
 const informationService = {
@@ -157,6 +159,45 @@ const informationService = {
         } else {
           return resolve({
             data: null,
+            message: "Information not found!",
+          });
+        }
+      } catch (error) {
+        console.log(error.message);
+        reject(error.message);
+      }
+    });
+  },
+  updateStatusMultiInfo: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const today = dayjs().toDate();
+        const users = await Information.find({
+          date_payable: { $lt: today },
+          status: { $ne: "OVER_DATE" },
+        });
+
+        const bulkOps = users.map((user) => {
+          const newAmountPayable = Math.round(user.amount_payable * 1.1);
+          return {
+            updateOne: {
+              filter: { _id: user._id },
+              update: {
+                $set: {
+                  status: "OVER_DATE",
+                  amount_payable: newAmountPayable,
+                },
+              },
+            },
+          };
+        });
+        const result = await Information.bulkWrite(bulkOps);
+        if (result.nModified > 0) {
+          return resolve({
+            message: "Cập nhật trạng thái thành công",
+          });
+        } else {
+          return resolve({
             message: "Information not found!",
           });
         }

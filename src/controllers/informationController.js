@@ -124,6 +124,14 @@ const informationController = {
       res.status(500).json({ message: error });
     }
   },
+  updateStatusMultiInfo: async (req, res) => {
+    try {
+      const { message } = await informationService.updateStatusMultiInfo();
+      res.status(200).json({ message });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
 };
 
 export default informationController;
