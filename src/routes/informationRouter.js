@@ -50,7 +50,7 @@ informationRouter.post(
 );
 
 
-informationRouter.post("/update-multi-info", tokenMiddleware.verifyTokenAdmin, informationController.updateStatusMultiInfo);
+// informationRouter.post("/update-multi-info", tokenMiddleware.verifyTokenAdmin, informationController.updateStatusMultiInfo);
 
 export default informationRouter;
 
