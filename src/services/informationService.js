@@ -168,6 +168,30 @@ const informationService = {
       }
     });
   },
+  getInformationByPhoneNumber: (phoneNumber ) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const info = await Information.findOne({
+          phone_number: phoneNumber,
+        });
+        const data = { ...info._doc };
+        if (data) {
+          return resolve({
+            data,
+            message: "Get information success!",
+          });
+        } else {
+          return resolve({
+            data: null,
+            message: "Không tìm thấy thông tin tài khoản",
+          });
+        }
+      } catch (error) {
+        console.log(error.message);
+        reject(error.message);
+      }
+    });
+  },
   updateStatusMultiInfo: () => {
     return new Promise(async (resolve, reject) => {
       try {

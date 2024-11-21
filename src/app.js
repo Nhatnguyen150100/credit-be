@@ -14,8 +14,16 @@ import informationRouter from "./routes/informationRouter";
 import authRouter from "./routes/authRouter";
 import connectDB from "./config/database";
 import bankRouter from "./routes/bankRouter";
+import authUserRouter from "./routes/authUserRouter";
+// import redisConfig from "./config/redis";
 
 connectDB();
+
+// redisConfig.connectRedis();
+
+// setTimeout(() => {
+//   redisConfig.pingToRedis();
+// }, 1000)
 
 var app = express();
 app.use(
@@ -48,6 +56,7 @@ app.use(express.static(join(__dirname, "..", "public")));
 app.use("/v1/information", informationRouter);
 app.use("/v1/bank", bankRouter);
 app.use("/v1/admin", authRouter);
+app.use("/v1/auth", authUserRouter);
 
 app.listen(process.env.PORT || 8081, () => {
   log("server listening on port: " + (process.env.PORT || 8081));
