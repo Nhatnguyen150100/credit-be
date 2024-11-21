@@ -1,4 +1,4 @@
-"use-strict";
+"use strict";
 import tokenService from "../services/token/tokenService";
 
 const tokenMiddleware = {

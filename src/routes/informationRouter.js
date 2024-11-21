@@ -1,4 +1,4 @@
-"use-strict";
+"use strict";
 import express from "express";
 const informationRouter = express.Router();
 import tokenMiddleware from "../middleware/tokenMiddleware";
