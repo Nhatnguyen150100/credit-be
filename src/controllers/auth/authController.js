@@ -36,17 +36,17 @@ const authController = {
       if (!rs.data) {
         return res.status(404).json({ message: rs.message });
       }
-      const { data, status } = await otpService.sentOTP(phoneNumber);
+      const { data, status, message } = await otpService.sentOTP(phoneNumber);
       if (status === 200) {
         // lưu otp trong 3 phút
         const TIME_OTP_IN_REDIS = 3 * 60;
         const result = await redisService.save(
-          "phone_number",
+          phoneNumber,
           data.otp,
           TIME_OTP_IN_REDIS
         );
         res.status(result.status).json({
-          message: result.message,
+          message,
         });
       }
     } catch (error) {
@@ -58,6 +58,7 @@ const authController = {
       const { phoneNumber, otp } = req.body;
       const redisOTP = await redisService.get(phoneNumber);
       if (redisOTP === otp) {
+        await redisService.removeItem(phoneNumber);
         const accessToken = tokenService.generateToken({
           phoneNumber: phoneNumber,
           role: "user",

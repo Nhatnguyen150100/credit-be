@@ -4,16 +4,16 @@ const redisService = {
   save: (key, value, timeExpire) => {
     return new Promise(async (resolve, reject) => {
       try {
-        if(timeExpire) {
+        if (timeExpire) {
           await redisClient.setEx(key, timeExpire, value);
-        } else{
+        } else {
           await redisClient.set(key, value);
         }
         return resolve({
           status: 200,
           message: "Save to Redis success!",
           data: null,
-        })
+        });
       } catch (error) {
         console.error(error.message);
         reject({
@@ -28,8 +28,8 @@ const redisService = {
     return new Promise(async (resolve, reject) => {
       try {
         const value = await redisClient.get(key);
-        if(value) {
-          return resolve(value)
+        if (value) {
+          return resolve(value);
         } else {
           return resolve(null);
         }
@@ -37,8 +37,23 @@ const redisService = {
         console.error(error.message);
         return reject(null);
       }
-    })
-  }
+    });
+  },
+  removeItem: (key) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await redisClient.del(key);
+        return resolve();
+      } catch (error) {
+        console.error(error.message);
+        return reject({
+          status: 500,
+          message: "Error removing from Redis",
+          data: null,
+        });
+      }
+    });
+  },
 };
 
 export default redisService;

@@ -15,15 +15,15 @@ import authRouter from "./routes/authRouter";
 import connectDB from "./config/database";
 import bankRouter from "./routes/bankRouter";
 import authUserRouter from "./routes/authUserRouter";
-// import redisConfig from "./config/redis";
+import redisConfig from "./config/redis";
 
 connectDB();
 
-// redisConfig.connectRedis();
+redisConfig.connectRedis();
 
-// setTimeout(() => {
-//   redisConfig.pingToRedis();
-// }, 1000)
+setTimeout(() => {
+  redisConfig.pingToRedis();
+}, 1000)
 
 var app = express();
 app.use(

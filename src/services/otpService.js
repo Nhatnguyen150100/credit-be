@@ -1,8 +1,9 @@
-import serviceAccountAPI from "../../firebaseServiceAPIKey.json";
-import admin from "firebase-admin";
+import { Infobip, AuthType } from '@infobip-api/sdk';
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccountAPI),
+const infobipClient = new Infobip({
+  baseUrl: process.env.INFOBIP_URL,
+  apiKey: process.env.INFOBIP_KEY,
+  authType: AuthType.ApiKey,
 });
 
 const otpService = {
@@ -12,16 +13,20 @@ const otpService = {
         const otpGenerated = Math.floor(
           100000 + Math.random() * 900000
         ).toString();
-        const message = {
-          notification: {
-            title: "Your OTP Code",
-            body: `Your OTP is: ${otpGenerated}`,
-          },
-          token: phone_number,
-        };
-        await admin.messaging().send(message);
+        const infobipResponse = await infobipClient.channels.sms.send({
+          type: 'text',
+          messages: [{
+            destinations: [
+              {
+                to: `+84${Number(phone_number)}`,
+              },
+            ],
+            from: 'Cat credit',
+            text: `Nhập mã OTP ${otpGenerated} để đăng nhập.`,
+          }],
+        });
         return resolve({
-          status: 200,
+          status: infobipResponse.status,
           message:
             "Gửi otp thành công. Hãy kiểm tra điện thoại và nhập opt trong vòng 3 phút",
           data: {
