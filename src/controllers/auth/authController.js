@@ -42,7 +42,10 @@ const authController = {
         const TIME_OTP_IN_REDIS = 3 * 60;
         const result = await redisService.save(
           phoneNumber,
-          data.otp,
+          JSON.stringify({
+            otp: data.otp,
+            user: rs.data,
+          }),
           TIME_OTP_IN_REDIS
         );
         res.status(result.status).json({
@@ -56,7 +59,8 @@ const authController = {
   verifyOTP: async (req, res) => {
     try {
       const { phoneNumber, otp } = req.body;
-      const redisOTP = await redisService.get(phoneNumber);
+      const rs = await redisService.get(phoneNumber);
+      const { otp: redisOTP, data } = JSON.parse(rs);
       if (redisOTP === otp) {
         await redisService.removeItem(phoneNumber);
         const accessToken = tokenService.generateToken({
@@ -65,7 +69,7 @@ const authController = {
         });
         res.status(200).json({
           message: "Xác thực OTP thành công",
-          data: { accessToken: accessToken },
+          data: { accessToken: accessToken, user: data },
         });
       } else {
         res.status(400).json({ message: "Mã OTP không đúng" });
@@ -73,7 +77,7 @@ const authController = {
     } catch (error) {
       res.status(500).json({ message: "Xác thực OTP thất bại" });
     }
-  }
+  },
 };
 
 export default authController;
