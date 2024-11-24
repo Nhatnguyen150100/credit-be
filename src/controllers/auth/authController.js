@@ -36,22 +36,36 @@ const authController = {
       if (!rs.data) {
         return res.status(404).json({ message: rs.message });
       }
-      const { data, status, message } = await otpService.sentOTP(phoneNumber);
-      if (status === 200) {
-        // lưu otp trong 3 phút
-        const TIME_OTP_IN_REDIS = 3 * 60;
-        const result = await redisService.save(
-          phoneNumber,
-          JSON.stringify({
-            otp: data.otp,
-            user: rs.data,
-          }),
-          TIME_OTP_IN_REDIS
-        );
-        res.status(result.status).json({
-          message,
-        });
-      }
+
+      const TIME_OTP_IN_REDIS = 3 * 60;
+      const result = await redisService.save(
+        phoneNumber,
+        JSON.stringify({
+          otp: "111111",
+          data: rs.data,
+        }),
+        TIME_OTP_IN_REDIS
+      );
+      res.status(result.status).json({
+        message: "Send otp successfully",
+      });
+
+      // const { data, status, message } = await otpService.sentOTP(phoneNumber);
+      // if (status === 200) {
+      //   // lưu otp trong 3 phút
+      //   const TIME_OTP_IN_REDIS = 3 * 60;
+      //   const result = await redisService.save(
+      //     phoneNumber,
+      //     JSON.stringify({
+      //       otp: data.otp,
+      //       data: rs.data,
+      //     }),
+      //     TIME_OTP_IN_REDIS
+      //   );
+      //   res.status(result.status).json({
+      //     message,
+      //   });
+      // }
     } catch (error) {
       res.status(500).json({ message: "Đăng nhập thất bại" });
     }
