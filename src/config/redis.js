@@ -15,7 +15,8 @@ const redisConfig = {
       await redisClient.connect();
       console.log('Kết nối RedisDB thành công!');
     } catch (error) {
-      console.error('Error connecting to Redis:', error.message);
+      console.error('Không thể kết nối tới redis:', error);
+      process.exit(-1);
     }
   },
   pingToRedis: async () => {
