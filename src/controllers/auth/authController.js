@@ -55,7 +55,7 @@ const authController = {
       if (status === 200) {
         // lưu otp trong 3 phút
         const TIME_OTP_IN_REDIS = 3 * 60;
-        const result = await redisService.save(
+        await redisService.save(
           phoneNumber,
           JSON.stringify({
             otp: data.otp,
@@ -63,10 +63,12 @@ const authController = {
           }),
           TIME_OTP_IN_REDIS
         );
-        res.status(result.status).json({
+        res.status(200).json({
           message,
         });
+        return;
       }
+      res.status(500).json({ message: "Lỗi server" });
     } catch (error) {
       res.status(500).json({ message: "Đăng nhập thất bại" });
     }
