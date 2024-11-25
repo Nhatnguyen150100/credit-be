@@ -8,7 +8,6 @@ const InformationSchema = new mongoose.Schema({
   // back_end_user_id_img: { type: String, required: true },
   bank_name: { type: String, required: true },
   phone_number: { type: String, required: true, unique: true },
-  password: { type: String, required: true},
   loan_amount: { type: Number, required: true },
   loan_date: { type: Date, required: true },
   receiving_account_number: { type: String, required: true },
