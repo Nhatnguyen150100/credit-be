@@ -174,7 +174,8 @@ const informationService = {
         const info = await Information.findOne({
           phone_number: phoneNumber,
         });
-        const data = { ...info._doc };
+        const data = { ...info?._doc };
+        console.log("🚀 ~ returnnewPromise ~ data:", data)
         if (data) {
           return resolve({
             data,
