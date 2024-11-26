@@ -175,11 +175,10 @@ const informationService = {
           phone_number: phoneNumber,
         });
         const data = { ...info?._doc };
-        console.log("🚀 ~ returnnewPromise ~ data:", data)
         if (data) {
           return resolve({
             data,
-            message: "Get information success!",
+            message: "Lấy thông tin thành công",
           });
         } else {
           return resolve({
