@@ -174,11 +174,11 @@ const informationService = {
         const info = await Information.findOne({
           phone_number: phoneNumber,
         });
-        const data = { ...info._doc };
+        const data = { ...info?._doc };
         if (data) {
           return resolve({
             data,
-            message: "Get information success!",
+            message: "Lấy thông tin thành công",
           });
         } else {
           return resolve({

@@ -33,9 +33,11 @@ const authController = {
       const rs = await informationService.getInformationByPhoneNumber(
         phoneNumber
       );
-      if (!rs.data) {
-        return res.status(404).json({ message: rs.message });
-      }
+
+      res.status(200).json({
+        data: rs.data,
+        message: "Đăng nhập thành công"
+      });
 
       // Test mode
       // const TIME_OTP_IN_REDIS = 3 * 60;
@@ -51,24 +53,24 @@ const authController = {
       //   message: "Send otp successfully",
       // });
 
-      const { data, status, message } = await otpService.sentOTP(phoneNumber);
-      if (status === 200) {
-        // lưu otp trong 3 phút
-        const TIME_OTP_IN_REDIS = 3 * 60;
-        await redisService.save(
-          phoneNumber,
-          JSON.stringify({
-            otp: data.otp,
-            data: rs.data,
-          }),
-          TIME_OTP_IN_REDIS
-        );
-        res.status(200).json({
-          message,
-        });
-        return;
-      }
-      res.status(500).json({ message: "Lỗi server" });
+      // const { data, status, message } = await otpService.sentOTP(phoneNumber);
+      // if (status === 200) {
+      //   // lưu otp trong 3 phút
+      //   const TIME_OTP_IN_REDIS = 3 * 60;
+      //   await redisService.save(
+      //     phoneNumber,
+      //     JSON.stringify({
+      //       otp: data.otp,
+      //       data: rs.data,
+      //     }),
+      //     TIME_OTP_IN_REDIS
+      //   );
+      //   res.status(200).json({
+      //     message,
+      //   });
+      //   return;
+      // }
+      // res.status(500).json({ message: "Lỗi server" });
     } catch (error) {
       res.status(500).json({ message: "Đăng nhập thất bại" });
     }
