@@ -1,11 +1,11 @@
-version: '3'
+version: "3"
 services:
   mongo:
     image: mongo:latest
     container_name: mongodb1
     restart: always
     ports:
-      - '27018:27017'
+      - "27018:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin1
       MONGO_INITDB_ROOT_PASSWORD: password1
