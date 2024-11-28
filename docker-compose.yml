@@ -1,6 +1,6 @@
 version: "3"
 services:
-  mongo:
+  mongo1:
     image: mongo:latest
     container_name: mongodb1
     restart: always
