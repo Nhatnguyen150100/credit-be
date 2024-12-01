@@ -168,7 +168,7 @@ const informationService = {
       }
     });
   },
-  getInformationByPhoneNumber: (phoneNumber ) => {
+  getInformationByPhoneNumber: (phoneNumber) => {
     return new Promise(async (resolve, reject) => {
       try {
         const info = await Information.findOne({
@@ -195,10 +195,10 @@ const informationService = {
   updateStatusMultiInfo: () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const today = dayjs().startOf('day').toDate();
+        const today = dayjs().startOf("day").toDate();
         const users = await Information.find({
           date_payable: { $lt: today },
-          status: { $ne: "OVER_DATE" },
+          status: "NOT_PAY",
         });
 
         const bulkOps = users.map((user) => {
