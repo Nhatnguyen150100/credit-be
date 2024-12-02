@@ -14,8 +14,8 @@ const InformationSchema = new mongoose.Schema({
   date_payable: { type: Date, required: true },
   amount_payable: { type: Number, required: true },
   status: { type: String, required: true },
-  address: { type: String, required: true },
-  company: { type: String, required: true },
+  address: { type: String },
+  company: { type: String },
 });
 
 const Information = mongoose.model("Information", InformationSchema);
