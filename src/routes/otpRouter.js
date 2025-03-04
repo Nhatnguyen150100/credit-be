@@ -34,4 +34,19 @@ otpRouter.delete(
   otpController.deleteOtp
 );
 
+otpRouter.post(
+  "/send-otp",
+  otpController.sendOtp
+);
+
+otpRouter.post(
+  "/verify-otp",
+  otpController.verifyOtp
+);
+
+otpRouter.post(
+  "/reset-otp",
+  otpController.resetOtp
+);
+
 export default otpRouter;

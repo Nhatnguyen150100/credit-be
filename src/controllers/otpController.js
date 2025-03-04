@@ -1,3 +1,4 @@
+import informationService from "../services/informationService";
 import otpService from "../services/otpService";
 
 const otpController = {
@@ -52,7 +53,43 @@ const otpController = {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
+  },
+
+  sendOtp: async (req, res) => {
+    try {
+      const { phoneNumber } = req.body;
+      const { message } = await otpService.sendSmsOtp(phoneNumber);
+      res.status(200).json({ message });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  verifyOtp: async (req, res) => {
+    try {
+      const { phoneNumber, otp } = req.body;
+      await otpService.verifyOtp(phoneNumber, otp);
+      const rs = await informationService.getInformationByPhoneNumber(
+        phoneNumber
+      );
+      res.status(200).json({
+        data: rs.data,
+        message: "Đăng nhập thành công"
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  resetOtp: async (req, res) => {
+    try {
+      const { phoneNumber } = req.body;
+      const { message } = await otpService.resetOtp(phoneNumber);
+      res.status(200).json({ message });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
 };
 
 export default otpController;

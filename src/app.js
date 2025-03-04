@@ -16,8 +16,10 @@ import connectDB from "./config/database";
 import bankRouter from "./routes/bankRouter";
 import authUserRouter from "./routes/authUserRouter";
 import otpRouter from "./routes/otpRouter";
+import { connectRedis } from "./config/redisConfig";
 
 connectDB();
+connectRedis();
 
 var app = express();
 app.use(
