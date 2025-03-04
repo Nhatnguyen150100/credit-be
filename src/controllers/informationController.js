@@ -20,7 +20,7 @@ const informationController = {
       );
       res.status(200).json({ data, message });
     } catch (error) {
-      res.status(500).json({ message: error });
+      res.status(500).json({ message: error.message });
     }
   },
   saveInformation: async (req, res) => {
@@ -61,7 +61,7 @@ const informationController = {
       });
       res.status(200).json({ message, data });
     } catch (error) {
-      res.status(500).json({ message: error });
+      res.status(500).json({ message: error.message });
     }
   },
   updateInformation: async (req, res) => {
@@ -83,7 +83,7 @@ const informationController = {
       );
       res.status(200).json({ message, data });
     } catch (error) {
-      res.status(500).json({ message: error });
+      res.status(500).json({ message: error.message });
     }
   },
   getInformation: async (req, res) => {

@@ -15,6 +15,7 @@ import authRouter from "./routes/authRouter";
 import connectDB from "./config/database";
 import bankRouter from "./routes/bankRouter";
 import authUserRouter from "./routes/authUserRouter";
+import otpRouter from "./routes/otpRouter";
 
 connectDB();
 
@@ -50,6 +51,7 @@ app.use("/v1/information", informationRouter);
 app.use("/v1/bank", bankRouter);
 app.use("/v1/admin", authRouter);
 app.use("/v1/auth", authUserRouter);
+app.use("/v1/otp", otpRouter);
 
 app.listen(process.env.PORT || 8081, () => {
   log("server listening on port: " + (process.env.PORT || 8081));
