@@ -50,12 +50,21 @@ const informationService = {
   saveInformation: (info) => {
     return new Promise(async (resolve, reject) => {
       try {
+        const { user_id } = info;
+        const userExists = await Information.findOne({ user_id });
+        if (userExists) {
+          return reject({
+            message:
+              "Số căn cước công dân đã tồn tại. Hãy kiểm tra lại thông tin!",
+          });
+        }
+
         const newInfo = new Information(info);
         const rs = await newInfo.save();
         if (rs) {
           return resolve({
             data: rs,
-            message: "Save information success!",
+            message: "Lưu thông tin thành công",
           });
         }
       } catch (error) {
@@ -67,6 +76,15 @@ const informationService = {
   updateInformation: (_id, data) => {
     return new Promise(async (resolve, reject) => {
       try {
+        const { user_id } = data;
+        const userExists = await Information.findOne({ user_id });
+        if (userExists) {
+          return reject({
+            message:
+              "Số căn cước công dân đã tồn tại. Hãy kiểm tra lại thông tin!",
+          });
+        }
+
         const rs = await Information.findByIdAndUpdate(_id, data, {
           new: true,
         });
