@@ -15,6 +15,8 @@ informationRouter.get("/:id", informationController.getInformation);
 
 informationRouter.post("/check", informationController.checkUserExits);
 
+informationRouter.post("/check-v2", informationController.checkUserExitsV2);
+
 informationRouter.post(
   "/",
   tokenMiddleware.verifyTokenAdmin,

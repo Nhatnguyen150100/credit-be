@@ -155,6 +155,26 @@ const informationService = {
       }
     });
   },
+
+  checkUserExitsV2: (user_id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userExists = await Information.findOne({ user_id });
+        if (userExists) {
+          return reject({
+            message:
+              "Số căn cước công dân đã tồn tại. Hãy kiểm tra lại thông tin!",
+          });
+        }
+        return resolve({
+          message: "CCCD hợp lệ",
+        });
+      } catch (error) {
+        return reject(error.message);
+      }
+    });
+  },
+
   getInformation: (_id) => {
     return new Promise(async (resolve, reject) => {
       try {
