@@ -9,6 +9,7 @@
     "build-babel": "babel ./src -d ./build/src --copy-files",
     "build": "npm run clean && npm run build-babel",
     "production": "node ./build/src/app.js",
+    "seed": "node ./src/seeders/seed.js --trace-warnings",
     "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/app.js"
   },
   "dependencies": {

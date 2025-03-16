@@ -107,6 +107,20 @@ const informationController = {
       res.status(500).json({ message: error });
     }
   },
+
+  checkUserExitsV2: async (req, res) => {
+    try {
+      const { user_id } = req.body;
+      const { message, data } = await informationService.checkUserExitsV2(
+        user_id
+      );
+      if (data) return res.status(200).json({ message, data });
+      res.status(200).json({ message: message });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
+
   deleteInformation: async (req, res) => {
     try {
       const { id } = req.params;

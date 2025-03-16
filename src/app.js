@@ -16,6 +16,7 @@ import connectDB from "./config/database";
 import bankRouter from "./routes/bankRouter";
 import authUserRouter from "./routes/authUserRouter";
 import otpRouter from "./routes/otpRouter";
+import firebaseRouter from "./routes/firebaseRouter";
 
 connectDB();
 
@@ -52,6 +53,7 @@ app.use("/v1/bank", bankRouter);
 app.use("/v1/admin", authRouter);
 app.use("/v1/auth", authUserRouter);
 app.use("/v1/otp", otpRouter);
+app.use("/v1/firebase", firebaseRouter);
 
 app.listen(process.env.PORT || 8081, () => {
   log("server listening on port: " + (process.env.PORT || 8081));

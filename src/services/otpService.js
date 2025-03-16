@@ -11,6 +11,10 @@ const otpService = {
             data: rs,
             message: "Check OTP success!",
           });
+        } else {
+          return reject({
+            message: "OTP not found!",
+          });
         }
       } catch (error) {
         console.log(error.message);
@@ -90,7 +94,7 @@ const otpService = {
         reject(error.message);
       }
     });
-  }
+  },
 };
 
 export default otpService;
