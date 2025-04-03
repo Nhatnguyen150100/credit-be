@@ -2,10 +2,10 @@ import bcrypt from "bcryptjs";
 import User from "../../models/user";
 import adminAccount from "../../config/adminAccount";
 import DEFINE_ROLE from "../../config/role";
+import Information from "../../models/infomation";
 
 const authService = {
   getAllUserAdmin: (page, limit, userName) => {
-    console.log("🚀 ~ userName:", userName);
     return new Promise(async (resolve, reject) => {
       try {
         const query = {
@@ -14,7 +14,6 @@ const authService = {
         if (userName) {
           query.userName = new RegExp(userName, "i");
         }
-        console.log("🚀 ~ returnnewPromise ~ query:", query);
         const users = await User.find(query)
           .skip((page - 1) * limit)
           .limit(limit)
@@ -94,6 +93,11 @@ const authService = {
         if (!deletedUser) {
           return reject("Tài khoản không tồn tại");
         }
+        await Information.updateMany(
+          { assignee: deletedUser._id },
+          { $set: { assignee: null } }
+        );
+
         return resolve({
           data: deletedUser,
           message: "Xóa tài khoản thành công",
