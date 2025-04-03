@@ -10,8 +10,10 @@ const tokenService = {
   generateToken(user) {
     return jwt.sign(
       {
+        id: user._id,
         userName: user.userName,
         role: user.role,
+        permissions: user.permissions || [],
       },
       privateKey,
       {
