@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import User from "../models/user";
+import DEFINE_ROLE from "../config/role";
 
 const { default: Information } = require("../models/infomation");
 
@@ -10,7 +12,8 @@ const informationService = {
     userId,
     phoneNumber,
     status,
-    datePayable
+    datePayable,
+    assignee
   ) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -32,7 +35,15 @@ const informationService = {
         if (datePayable) {
           query.date_payable = new Date(datePayable);
         }
-        const infos = await Information.find(query).skip(skip).limit(limit);
+
+        if (assignee && assignee.role === DEFINE_ROLE.ADMIN) {
+          query.assignee = assignee.id;
+        }
+
+        const infos = await Information.find(query)
+          .populate("assignee", "userName")
+          .skip(skip)
+          .limit(limit);
         const total = await Information.countDocuments(query);
         return resolve({
           data: {
@@ -76,7 +87,8 @@ const informationService = {
   updateInformation: (_id, data) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const rs = await Information.findByIdAndUpdate(_id, data, {
+        const { assignee, ...updateData } = data;
+        const rs = await Information.findByIdAndUpdate(_id, updateData, {
           new: true,
         });
         if (rs) {
@@ -259,6 +271,47 @@ const informationService = {
         reject(error.message);
       }
     });
+  },
+
+  assigneeInformation: async (data) => {
+    try {
+      const { listInformationIds, userId: _id } = data;
+
+      const assignee = await User.findById(_id).lean();
+      if (!assignee) {
+        throw new Error("Không tìm thấy người dùng cần gán thông tin");
+      }
+
+      if (!Array.isArray(listInformationIds)) {
+        throw new Error("Danh sách thông tin không hợp lệ");
+      }
+
+      const updateResult = await Information.updateMany(
+        {
+          _id: { $in: listInformationIds },
+        },
+        { $set: { assignee: _id } }
+      );
+
+      if (updateResult.matchedCount === 0) {
+        throw new Error("Không tìm thấy thông tin phù hợp để gán");
+      }
+
+      return {
+        message: `Gán thông tin thành công cho ${updateResult.modifiedCount} bản ghi`,
+        data: {
+          totalMatched: updateResult.matchedCount,
+          totalModified: updateResult.modifiedCount,
+        },
+      };
+    } catch (error) {
+      console.error("[Assignee Error]", error);
+      throw new Error(
+        error instanceof Error
+          ? error.message
+          : "Đã xảy ra lỗi trong quá trình gán thông tin"
+      );
+    }
   },
 };
 

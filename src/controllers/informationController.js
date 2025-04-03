@@ -5,6 +5,7 @@ const {
 const informationController = {
   getAllInformation: async (req, res) => {
     try {
+      const assignee = req.user;
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
       const nameLike = req.query.nameLike || "";
@@ -16,7 +17,8 @@ const informationController = {
         userId,
         phoneNumber,
         status,
-        datePayable
+        datePayable,
+        assignee
       );
       res.status(200).json({ data, message });
     } catch (error) {
@@ -41,6 +43,7 @@ const informationController = {
         address,
         company,
         bank_name,
+        assignee,
       } = req.body;
       const { message, data } = await informationService.saveInformation({
         user_id,
@@ -58,6 +61,7 @@ const informationController = {
         address,
         company,
         bank_name,
+        assignee,
       });
       res.status(200).json({ message, data });
     } catch (error) {
@@ -144,6 +148,17 @@ const informationController = {
       res.status(200).json({ message });
     } catch (error) {
       res.status(500).json({ message: error });
+    }
+  },
+  assigneeInformation: async (req, res) => {
+    try {
+      const rs = await informationService.assigneeInformation(req.body);
+      res.status(200).json({
+        data: rs.data,
+        message: rs.message || "Gán thông tin thành công cho admin",
+      });
+    } catch (error) {
+      res.status(500).json(error || "Gán thông tin thất bại");
     }
   },
 };

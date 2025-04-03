@@ -4,14 +4,11 @@ const firebaseRouter = express.Router();
 import tokenMiddleware from "../middleware/tokenMiddleware";
 import firebaseController from "../controllers/firebaseController";
 
-firebaseRouter.get(
-  "/",
-  firebaseController.getFirebaseConfig
-);
+firebaseRouter.get("/", firebaseController.getFirebaseConfig);
 
 firebaseRouter.post(
   "/",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenSuperAdmin,
   firebaseController.setFirebaseConfig
 );
 

@@ -19,7 +19,7 @@ informationRouter.post("/check-v2", informationController.checkUserExitsV2);
 
 informationRouter.post(
   "/",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenAdminCreate,
   uploadStorage.fields([
     { name: "userTakeIdImg", maxCount: 1 },
     { name: "frontEndImg", maxCount: 1 },
@@ -30,7 +30,7 @@ informationRouter.post(
 
 informationRouter.put(
   "/:id",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenAdminUpdate,
   uploadStorage.fields([
     { name: "userTakeIdImg", maxCount: 1 },
     { name: "frontEndImg", maxCount: 1 },
@@ -41,20 +41,26 @@ informationRouter.put(
 
 informationRouter.delete(
   "/:id",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenAdminDelete,
   informationController.deleteInformation
 );
 
 informationRouter.post(
   "/delete-multi",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenAdminDelete,
   informationController.deleteMultiInfo
 );
 
 informationRouter.post(
   "/update-multi-info",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenAdminUpdate,
   informationController.updateStatusMultiInfo
+);
+
+informationRouter.post(
+  "/assignee-information",
+  tokenMiddleware.verifyTokenSuperAdmin,
+  informationController.assigneeInformation
 );
 
 export default informationRouter;

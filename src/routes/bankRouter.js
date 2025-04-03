@@ -34,22 +34,22 @@ bankRouter.get("/", bankController.getAllBank);
 
 bankRouter.post(
   "/",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenSuperAdmin,
   upload.single("qrCodeImg"),
   bankController.createBank
 );
 
 bankRouter.put(
   "/:id",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenSuperAdmin,
   upload.single("qrCodeImg"),
   bankController.updateBank
 );
 
 bankRouter.delete(
   "/:id",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenSuperAdmin,
   bankController.deleteBank
-)
+);
 
 export default bankRouter;

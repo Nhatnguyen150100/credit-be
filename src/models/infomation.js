@@ -5,7 +5,6 @@ const InformationSchema = new mongoose.Schema({
   name: { type: String, required: true },
   user_take_id_img: { type: String },
   front_end_user_id_img: { type: String },
-  // back_end_user_id_img: { type: String, required: true },
   bank_name: { type: String, required: true },
   phone_number: { type: String, required: true, unique: true },
   loan_amount: { type: Number, required: true },
@@ -16,6 +15,17 @@ const InformationSchema = new mongoose.Schema({
   status: { type: String, required: true },
   address: { type: String },
   company: { type: String },
+  assignee: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+    validate: {
+      validator: function (value) {
+        return value === null || mongoose.Types.ObjectId.isValid(value);
+      },
+      message: "Invalid assignee ID",
+    },
+  },
 });
 
 const Information = mongoose.model("Information", InformationSchema);

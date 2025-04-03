@@ -4,33 +4,25 @@ const otpRouter = express.Router();
 import tokenMiddleware from "../middleware/tokenMiddleware";
 import otpController from "../controllers/otpController";
 
-otpRouter.get(
-  "/",
-  tokenMiddleware.verifyTokenAdmin,
-  otpController.getOtp
-);
+otpRouter.get("/", tokenMiddleware.verifyTokenSuperAdmin, otpController.getOtp);
 
 otpRouter.post(
   "/",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenSuperAdmin,
   otpController.createOtp
 );
 
-
-otpRouter.post(
-  "/on-check-otp",
-  otpController.onCheckOtp
-);
+otpRouter.post("/on-check-otp", otpController.onCheckOtp);
 
 otpRouter.put(
   "/:id",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenSuperAdmin,
   otpController.updateOtp
 );
 
 otpRouter.delete(
   "/:id",
-  tokenMiddleware.verifyTokenAdmin,
+  tokenMiddleware.verifyTokenSuperAdmin,
   otpController.deleteOtp
 );
 
