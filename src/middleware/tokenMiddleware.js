@@ -15,6 +15,7 @@ const tokenMiddleware = {
       return res.status(403).json({ message: "Invalid token" });
     }
     if (user.role === DEFINE_ROLE.SUPER_ADMIN) {
+      req.user = user;
       next();
       return;
     }
