@@ -9,7 +9,7 @@ const informationController = {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
       const nameLike = req.query.nameLike || "";
-      const { phoneNumber, status, datePayable, userId } = req.query;
+      const { phoneNumber, status, datePayable, userId, assigneeIds } = req.query;
       const { message, data } = await informationService.getAllInformation(
         page,
         limit,
@@ -18,7 +18,8 @@ const informationController = {
         phoneNumber,
         status,
         datePayable,
-        assignee
+        assignee,
+        assigneeIds
       );
       res.status(200).json({ data, message });
     } catch (error) {

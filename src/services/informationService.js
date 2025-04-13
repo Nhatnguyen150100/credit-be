@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import User from "../models/user";
 import DEFINE_ROLE from "../config/role";
+import mongoose from "mongoose";
 
 const { default: Information } = require("../models/infomation");
 
@@ -13,7 +14,8 @@ const informationService = {
     phoneNumber,
     status,
     datePayable,
-    assignee
+    assignee,
+    assigneeIds
   ) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -35,9 +37,26 @@ const informationService = {
         if (datePayable) {
           query.date_payable = new Date(datePayable);
         }
+        if (nameLike) query.name = new RegExp(nameLike, "i");
+        if (userId) query.user_id = new RegExp(userId, "i");
+        if (phoneNumber) query.phone_number = new RegExp(phoneNumber, "i");
+        if (status) query.status = new RegExp(status, "i");
+        if (datePayable) query.date_payable = new Date(datePayable);
 
-        if (assignee && assignee.role === DEFINE_ROLE.ADMIN) {
+        if (assignee.role === DEFINE_ROLE.ADMIN) {
           query.assignee = assignee.id;
+        }
+        if (
+          assignee.role === DEFINE_ROLE.SUPER_ADMIN &&
+          assigneeIds?.length > 0
+        ) {
+          const validAssigneeIds = assigneeIds
+            .filter((id) => mongoose.Types.ObjectId.isValid(id))
+            .map((id) => new mongoose.Types.ObjectId(id));
+
+          if (validAssigneeIds.length > 0) {
+            query.assignee = { $in: validAssigneeIds };
+          }
         }
 
         const infos = await Information.find(query)
