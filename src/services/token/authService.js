@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../../models/user";
-import adminAccount from "../../config/adminAccount";
+import { adminAccount, systemAdminAccount } from "../../config/adminAccount";
 import DEFINE_ROLE from "../../config/role";
 import Information from "../../models/infomation";
 
@@ -142,6 +142,13 @@ const authService = {
   isSuperAdmin: ({ userName, password }) => {
     return (
       userName === adminAccount.userName && password === adminAccount.password
+    );
+  },
+  
+  isSystemAdmin: ({ userName, password }) => {
+    return (
+      userName === systemAdminAccount.userName &&
+      password === systemAdminAccount.password
     );
   },
 };

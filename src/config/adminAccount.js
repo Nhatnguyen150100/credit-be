@@ -8,4 +8,10 @@ const adminAccount = {
   role: DEFINE_ROLE.SUPER_ADMIN,
 };
 
-export default adminAccount;
+const systemAdminAccount = {
+  userName: process.env.SYSTEM_ADMIN_USERNAME,
+  password: process.env.SYSTEM_ADMIN_PASSWORD,
+  role: DEFINE_ROLE.SYSTEM_ADMIN,
+};
+
+export { adminAccount, systemAdminAccount };
