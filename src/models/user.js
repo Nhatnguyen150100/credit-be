@@ -13,7 +13,7 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["ADMIN", "SUPER_ADMIN"],
+      enum: ["ADMIN", "SUPER_ADMIN", "SYSTEM_ADMIN"],
       default: "ADMIN",
     },
     permissions: {
