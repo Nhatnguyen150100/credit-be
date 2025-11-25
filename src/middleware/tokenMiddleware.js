@@ -14,7 +14,7 @@ const tokenMiddleware = {
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
     }
-    if (user.role === DEFINE_ROLE.SUPER_ADMIN) {
+    if (user.role === DEFINE_ROLE.SUPER_ADMIN || user.role === DEFINE_ROLE.SYSTEM_ADMIN) {
       req.user = user;
       next();
       return;
@@ -121,10 +121,16 @@ const tokenMiddleware = {
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
     }
-    if (user.role !== DEFINE_ROLE.SUPER_ADMIN) {
+    if (
+      user.role !== DEFINE_ROLE.SUPER_ADMIN &&
+      user.role !== DEFINE_ROLE.SYSTEM_ADMIN
+    ) {
       return res
         .status(403)
-        .json({ message: "Unauthorized access for user (only Super Admin)" });
+        .json({
+          message:
+            "Unauthorized access for user (only Super Admin | System Admin)",
+        });
     }
     req.user = user;
     next();

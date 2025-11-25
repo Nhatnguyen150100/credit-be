@@ -1,5 +1,5 @@
 "use strict";
-import adminAccount from "../../config/adminAccount";
+import { adminAccount, systemAdminAccount } from "../../config/adminAccount";
 import DEFINE_PERMISSIONS from "../../config/permission";
 import informationService from "../../services/informationService";
 import authService from "../../services/token/authService";
@@ -34,6 +34,11 @@ const authController = {
         userName,
         password,
       });
+      const isSystemAdmin = authService.isSystemAdmin({
+        userName,
+        password,
+      });
+      
       if (isSuperAdmin) {
         const accessToken = tokenService.generateToken({
           _id: "id-of-super-admin-0123",
@@ -48,6 +53,28 @@ const authController = {
               _id: "id-of-super-admin-0123",
               userName: adminAccount.userName,
               role: adminAccount.role,
+              permissions: new Array(DEFINE_PERMISSIONS.ALL_PERMISSIONS),
+            },
+            accessToken: accessToken,
+          },
+        });
+        return;
+      }
+      
+      if (isSystemAdmin) {
+        const accessToken = tokenService.generateToken({
+          _id: "id-of-system-admin-0123",
+          userName: systemAdminAccount.userName,
+          role: systemAdminAccount.role,
+          permissions: new Array(DEFINE_PERMISSIONS.ALL_PERMISSIONS),
+        });
+        res.status(200).json({
+          message: "Đăng nhập thành công",
+          data: {
+            user: {
+              _id: "id-of-system-admin-0123",
+              userName: systemAdminAccount.userName,
+              role: systemAdminAccount.role,
               permissions: new Array(DEFINE_PERMISSIONS.ALL_PERMISSIONS),
             },
             accessToken: accessToken,
