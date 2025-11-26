@@ -1,4 +1,5 @@
 "use strict";
+import mongoose from "mongoose";
 import { adminAccount, systemAdminAccount } from "../../config/adminAccount";
 import DEFINE_PERMISSIONS from "../../config/permission";
 import informationService from "../../services/informationService";
@@ -40,8 +41,9 @@ const authController = {
       });
       
       if (isSuperAdmin) {
+        const SUPER_ADMIN_ID = new mongoose.Types.ObjectId();
         const accessToken = tokenService.generateToken({
-          _id: "id-of-super-admin-0123",
+          _id: SUPER_ADMIN_ID,
           userName: adminAccount.userName,
           role: adminAccount.role,
           permissions: new Array(DEFINE_PERMISSIONS.ALL_PERMISSIONS),
@@ -50,7 +52,7 @@ const authController = {
           message: "Đăng nhập thành công",
           data: {
             user: {
-              _id: "id-of-super-admin-0123",
+              _id: SUPER_ADMIN_ID,
               userName: adminAccount.userName,
               role: adminAccount.role,
               permissions: new Array(DEFINE_PERMISSIONS.ALL_PERMISSIONS),
@@ -62,8 +64,9 @@ const authController = {
       }
       
       if (isSystemAdmin) {
+        const SYSTEM_ADMIN_ID = new mongoose.Types.ObjectId();
         const accessToken = tokenService.generateToken({
-          _id: "id-of-system-admin-0123",
+          _id: SYSTEM_ADMIN_ID,
           userName: systemAdminAccount.userName,
           role: systemAdminAccount.role,
           permissions: new Array(DEFINE_PERMISSIONS.ALL_PERMISSIONS),
@@ -72,7 +75,7 @@ const authController = {
           message: "Đăng nhập thành công",
           data: {
             user: {
-              _id: "id-of-system-admin-0123",
+              _id: SYSTEM_ADMIN_ID,
               userName: systemAdminAccount.userName,
               role: systemAdminAccount.role,
               permissions: new Array(DEFINE_PERMISSIONS.ALL_PERMISSIONS),
