@@ -1,6 +1,5 @@
 import bcrypt from "bcryptjs";
 import User from "../../models/user";
-import { adminAccount, systemAdminAccount } from "../../config/adminAccount";
 import DEFINE_ROLE from "../../config/role";
 import Information from "../../models/infomation";
 
@@ -109,6 +108,126 @@ const authService = {
     });
   },
 
+  getAllSystemAdmin: (page, limit, userName) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const query = { role: DEFINE_ROLE.SYSTEM_ADMIN };
+        if (userName) {
+          query.userName = new RegExp(userName, "i");
+        }
+        const users = await User.find(query)
+          .select("-password")
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .exec();
+        const totalItems = await User.countDocuments(query);
+        return resolve({ data: users, totalItems });
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+  },
+
+  createSystemAdmin: (userName, password) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const existing = await User.findOne({ userName });
+        if (existing) {
+          return reject("Tên đăng nhập đã tồn tại");
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await new User({
+          userName,
+          password: hashedPassword,
+          role: DEFINE_ROLE.SYSTEM_ADMIN,
+        }).save();
+        return resolve({
+          data: { _id: newUser._id, userName: newUser.userName, role: newUser.role },
+          message: "Tạo tài khoản SYSTEM_ADMIN thành công",
+        });
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+  },
+
+  updateSystemAdmin: (id, userName) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const target = await User.findOne({ _id: id, role: DEFINE_ROLE.SYSTEM_ADMIN });
+        if (!target) {
+          return reject("Tài khoản SYSTEM_ADMIN không tồn tại");
+        }
+        if (userName && userName !== target.userName) {
+          const duplicate = await User.findOne({ userName });
+          if (duplicate) return reject("Tên đăng nhập đã tồn tại");
+        }
+        const updated = await User.findByIdAndUpdate(
+          id,
+          { userName },
+          { new: true, select: "-password" }
+        );
+        return resolve({ data: updated, message: "Cập nhật thành công" });
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+  },
+
+  deleteSystemAdmin: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const target = await User.findOne({ _id: id, role: DEFINE_ROLE.SYSTEM_ADMIN });
+        if (!target) {
+          return reject("Tài khoản SYSTEM_ADMIN không tồn tại");
+        }
+        await User.findByIdAndDelete(id);
+        return resolve({ data: target, message: "Xóa tài khoản SYSTEM_ADMIN thành công" });
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+  },
+
+  resetSystemAdminPassword: (id, newPassword) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const target = await User.findOne({ _id: id, role: DEFINE_ROLE.SYSTEM_ADMIN });
+        if (!target) {
+          return reject("Tài khoản SYSTEM_ADMIN không tồn tại");
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await User.findByIdAndUpdate(id, { password: hashedPassword });
+        return resolve({ message: "Reset mật khẩu thành công" });
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+  },
+
+  changePassword: (userName, currentPassword, newPassword) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await User.findOne({ userName });
+        if (!user) {
+          return reject({ message: "Tài khoản không tồn tại" });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+          return reject({ message: "Mật khẩu hiện tại không đúng" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await User.findByIdAndUpdate(user._id, { password: hashedPassword });
+
+        return resolve({ message: "Đổi mật khẩu thành công" });
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+  },
+
   login: (userData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -139,18 +258,6 @@ const authService = {
     });
   },
 
-  isSuperAdmin: ({ userName, password }) => {
-    return (
-      userName === adminAccount.userName && password === adminAccount.password
-    );
-  },
-  
-  isSystemAdmin: ({ userName, password }) => {
-    return (
-      userName === systemAdminAccount.userName &&
-      password === systemAdminAccount.password
-    );
-  },
 };
 
 export default authService;
