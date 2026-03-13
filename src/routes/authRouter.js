@@ -29,4 +29,41 @@ authRouter.put(
   authController.updateUser
 );
 
+authRouter.put(
+  "/change-password",
+  tokenMiddleware.verifyTokenSuperAdmin,
+  authController.changePassword
+);
+
+// ── SYSTEM_ADMIN management (only SUPER_ADMIN) ──────────────────────────────
+authRouter.get(
+  "/system-admins",
+  tokenMiddleware.verifyTokenOnlySuperAdmin,
+  authController.getAllSystemAdmin
+);
+
+authRouter.post(
+  "/system-admins",
+  tokenMiddleware.verifyTokenOnlySuperAdmin,
+  authController.createSystemAdmin
+);
+
+authRouter.put(
+  "/system-admins/:id",
+  tokenMiddleware.verifyTokenOnlySuperAdmin,
+  authController.updateSystemAdmin
+);
+
+authRouter.delete(
+  "/system-admins/:id",
+  tokenMiddleware.verifyTokenOnlySuperAdmin,
+  authController.deleteSystemAdmin
+);
+
+authRouter.put(
+  "/system-admins/:id/reset-password",
+  tokenMiddleware.verifyTokenOnlySuperAdmin,
+  authController.resetSystemAdminPassword
+);
+
 export default authRouter;

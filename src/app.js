@@ -10,6 +10,7 @@ import { config } from "dotenv";
 config();
 
 import { log } from "console";
+import { startImportWorker } from "./workers/importWorker";
 import informationRouter from "./routes/informationRouter";
 import authRouter from "./routes/authRouter";
 import connectDB from "./config/database";
@@ -17,8 +18,10 @@ import bankRouter from "./routes/bankRouter";
 import authUserRouter from "./routes/authUserRouter";
 import otpRouter from "./routes/otpRouter";
 import firebaseRouter from "./routes/firebaseRouter";
+import healthRouter from "./routes/healthRouter";
 
 connectDB();
+startImportWorker();
 
 var app = express();
 app.use(
@@ -29,7 +32,7 @@ app.use(
     preflightContinue: false,
     optionsSuccessStatus: 200,
     allowedHeaders: ["Content-Type", "Authorization", "token"],
-    exposedHeaders: ["X-Total-Count", "token"],
+    exposedHeaders: ["X-Total-Count", "token", "Content-Disposition"],
   })
 );
 
@@ -54,6 +57,7 @@ app.use("/v1/admin", authRouter);
 app.use("/v1/auth", authUserRouter);
 app.use("/v1/otp", otpRouter);
 app.use("/v1/firebase", firebaseRouter);
+app.use("/health", healthRouter);
 
 app.listen(process.env.PORT || 8081, () => {
   log("server listening on port: " + (process.env.PORT || 8081));

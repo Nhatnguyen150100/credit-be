@@ -7,3 +7,5 @@ build
 /public/*
 
 .firebaseServiceAPIKey.json
+/tmp/*
+!tmp/.gitkeep
