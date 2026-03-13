@@ -1,6 +1,9 @@
 const {
   default: informationService,
 } = require("../services/informationService");
+const { default: csvService } = require("../services/csvService");
+const { default: ImportJob } = require("../models/importJob");
+const { importQueue } = require("../config/queue");
 
 const informationController = {
   getAllInformation: async (req, res) => {
@@ -160,6 +163,90 @@ const informationController = {
       });
     } catch (error) {
       res.status(500).json(error || "Gán thông tin thất bại");
+    }
+  },
+
+  importCsv: async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "Vui lòng upload file CSV" });
+      }
+
+      const importJob = await ImportJob.create({
+        fileName: req.file.originalname,
+        filePath: req.file.path,
+        createdBy: req.user?.userName || "unknown",
+      });
+
+      await importQueue.add(
+        "import",
+        { jobId: importJob._id.toString(), filePath: req.file.path },
+        { jobId: importJob._id.toString() }
+      );
+
+      res.status(202).json({
+        message: "File đã được nhận. Đang xử lý trong nền.",
+        data: {
+          jobId: importJob._id,
+          fileName: importJob.fileName,
+          status: importJob.status,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message || error });
+    }
+  },
+
+  getImportJobStatus: async (req, res) => {
+    try {
+      const { jobId } = req.params;
+      const job = await ImportJob.findById(jobId).select("-filePath");
+      if (!job) {
+        return res.status(404).json({ message: "Không tìm thấy job" });
+      }
+      res.status(200).json({ data: job });
+    } catch (error) {
+      res.status(500).json({ message: error.message || error });
+    }
+  },
+
+  getImportJobs: async (req, res) => {
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+      const jobs = await ImportJob.find()
+        .select("-filePath -duplicates -errors")
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit);
+      const totalItems = await ImportJob.countDocuments();
+      res.status(200).json({ data: jobs, totalItems });
+    } catch (error) {
+      res.status(500).json({ message: error.message || error });
+    }
+  },
+
+  exportCsv: async (req, res) => {
+    try {
+      const { nameLike, phoneNumber, status, datePayable, userId, assigneeIds } =
+        req.query;
+      const { data, message } = await csvService.exportCsv({
+        nameLike,
+        phoneNumber,
+        status,
+        datePayable,
+        userId,
+        assigneeIds,
+      });
+      const filename = `information_${Date.now()}.csv`;
+      res.setHeader("Content-Type", "text/csv; charset=utf-8");
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${filename}"`
+      );
+      res.status(200).send(data);
+    } catch (error) {
+      res.status(500).json({ message: error });
     }
   },
 };
