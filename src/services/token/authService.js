@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../../models/user";
 import DEFINE_ROLE from "../../config/role";
 import Information from "../../models/infomation";
+import tokenService from "./tokenService";
 
 const authService = {
   getAllUserAdmin: (page, limit, userName) => {
@@ -224,6 +225,44 @@ const authService = {
         return resolve({ message: "Đổi mật khẩu thành công" });
       } catch (error) {
         reject(error.message);
+      }
+    });
+  },
+
+  supervisorLogin: ({ userName, password, requestIP }) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const allowedIPs = (process.env.IP_SUPERVISOR || "")
+          .split(",")
+          .map((ip) => ip.trim())
+          .filter(Boolean);
+
+        if (allowedIPs.length > 0 && !allowedIPs.includes(requestIP)) {
+          return reject({ status: 403, message: "IP không được phép truy cập" });
+        }
+
+        if (
+          userName !== process.env.SUPERVISOR_USERNAME ||
+          password !== process.env.SUPERVISOR_PASSWORD
+        ) {
+          return reject({ status: 401, message: "Tài khoản hoặc mật khẩu không đúng" });
+        }
+
+        const accessToken = tokenService.generateSupervisorToken({
+          _id: "supervisor",
+          userName: process.env.SUPERVISOR_USERNAME,
+          role: DEFINE_ROLE.SUPERVISOR,
+        });
+
+        return resolve({
+          user: {
+            userName: process.env.SUPERVISOR_USERNAME,
+            role: DEFINE_ROLE.SUPERVISOR,
+          },
+          accessToken,
+        });
+      } catch (error) {
+        reject({ status: 500, message: error.message });
       }
     });
   },

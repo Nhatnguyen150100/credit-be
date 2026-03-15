@@ -22,6 +22,20 @@ const tokenService = {
       }
     );
   },
+  generateSupervisorToken(user) {
+    return jwt.sign(
+      {
+        id: user._id,
+        userName: user.userName,
+        role: user.role,
+      },
+      privateKey,
+      {
+        expiresIn: "7d",
+        algorithm: "RS256",
+      }
+    );
+  },
   verifyToken(accessToken) {
     try {
       const doctor = jwt.verify(accessToken, publicKey);
