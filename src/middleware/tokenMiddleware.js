@@ -129,6 +129,22 @@ const tokenMiddleware = {
     req.user = user;
     next();
   },
+  verifyTokenSupervisor: (req, res, next) => {
+    const token = req.headers.authorization;
+    if (!token) {
+      return res.status(401).json({ message: "Token is required" });
+    }
+    const accessToken = token.split(" ")[1];
+    const user = tokenService.verifyToken(accessToken);
+    if (!user) {
+      return res.status(403).json({ message: "Invalid token" });
+    }
+    if (user.role !== DEFINE_ROLE.SUPERVISOR) {
+      return res.status(403).json({ message: "Chỉ SUPERVISOR mới có quyền thực hiện hành động này" });
+    }
+    req.user = user;
+    next();
+  },
   verifyTokenSuperAdmin: (req, res, next) => {
     const token = req.headers.authorization;
     if (!token) {

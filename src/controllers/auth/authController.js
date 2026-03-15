@@ -191,6 +191,22 @@ const authController = {
     }
   },
 
+  supervisorLogin: async (req, res) => {
+    try {
+      const { userName, password } = req.body;
+      const requestIP =
+        (req.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
+        req.socket?.remoteAddress ||
+        "";
+
+      const rs = await authService.supervisorLogin({ userName, password, requestIP });
+      return res.status(200).json({ message: "Đăng nhập thành công", data: rs });
+    } catch (error) {
+      const status = error.status || 500;
+      return res.status(status).json({ message: error.message || error });
+    }
+  },
+
   loginUser: async (req, res) => {
     try {
       const { phoneNumber } = req.body;
