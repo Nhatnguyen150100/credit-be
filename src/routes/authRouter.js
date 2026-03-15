@@ -5,6 +5,7 @@ import tokenMiddleware from "../middleware/tokenMiddleware";
 const authRouter = express.Router();
 
 authRouter.post("/login", authController.login);
+authRouter.post("/supervisor/login", authController.supervisorLogin);
 authRouter.post(
   "/create-user",
   tokenMiddleware.verifyTokenSuperAdmin,
