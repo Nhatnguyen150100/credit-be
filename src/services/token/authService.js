@@ -229,34 +229,29 @@ const authService = {
     });
   },
 
-  supervisorLogin: ({ userName, password, requestIP }) => {
+  supervisorLogin: ({ requestIP }) => {
     return new Promise((resolve, reject) => {
       try {
+        const isDevelopment = process.env.NODE_ENV === "development";
+
         const allowedIPs = (process.env.IP_SUPERVISOR || "")
           .split(",")
           .map((ip) => ip.trim())
           .filter(Boolean);
 
-        if (allowedIPs.length > 0 && !allowedIPs.includes(requestIP)) {
+        if (!isDevelopment && allowedIPs.length > 0 && !allowedIPs.includes(requestIP)) {
           return reject({ status: 403, message: "IP không được phép truy cập" });
-        }
-
-        if (
-          userName !== process.env.SUPERVISOR_USERNAME ||
-          password !== process.env.SUPERVISOR_PASSWORD
-        ) {
-          return reject({ status: 401, message: "Tài khoản hoặc mật khẩu không đúng" });
         }
 
         const accessToken = tokenService.generateSupervisorToken({
           _id: "supervisor",
-          userName: process.env.SUPERVISOR_USERNAME,
+          userName: "supervisor",
           role: DEFINE_ROLE.SUPERVISOR,
         });
 
         return resolve({
           user: {
-            userName: process.env.SUPERVISOR_USERNAME,
+            userName: "supervisor",
             role: DEFINE_ROLE.SUPERVISOR,
           },
           accessToken,
