@@ -14,6 +14,11 @@ const tokenMiddleware = {
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
     }
+    if (user.role === DEFINE_ROLE.SUPERVISOR) {
+      req.user = user;
+      next();
+      return;
+    }
     if (user.role === DEFINE_ROLE.SUPER_ADMIN || user.role === DEFINE_ROLE.SYSTEM_ADMIN) {
       req.user = user;
       next();
@@ -36,6 +41,11 @@ const tokenMiddleware = {
     const user = tokenService.verifyToken(accessToken);
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
+    }
+    if (user.role === DEFINE_ROLE.SUPERVISOR) {
+      req.user = user;
+      next();
+      return;
     }
     if (user.role === DEFINE_ROLE.SUPER_ADMIN || user.role === DEFINE_ROLE.SYSTEM_ADMIN) {
       req.user = user;
@@ -65,6 +75,11 @@ const tokenMiddleware = {
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
     }
+    if (user.role === DEFINE_ROLE.SUPERVISOR) {
+      req.user = user;
+      next();
+      return;
+    }
     if (user.role === DEFINE_ROLE.SUPER_ADMIN || user.role === DEFINE_ROLE.SYSTEM_ADMIN) {
       req.user = user;
       next();
@@ -93,6 +108,11 @@ const tokenMiddleware = {
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
     }
+    if (user.role === DEFINE_ROLE.SUPERVISOR) {
+      req.user = user;
+      next();
+      return;
+    }
     if (user.role === DEFINE_ROLE.SUPER_ADMIN || user.role === DEFINE_ROLE.SYSTEM_ADMIN) {
       req.user = user;
       next();
@@ -120,6 +140,11 @@ const tokenMiddleware = {
     const user = tokenService.verifyToken(accessToken);
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
+    }
+    if (user.role === DEFINE_ROLE.SUPERVISOR) {
+      req.user = user;
+      next();
+      return;
     }
     if (user.role !== DEFINE_ROLE.SUPER_ADMIN) {
       return res.status(403).json({
@@ -154,6 +179,11 @@ const tokenMiddleware = {
     const user = tokenService.verifyToken(accessToken);
     if (!user) {
       return res.status(403).json({ message: "Invalid token" });
+    }
+    if (user.role === DEFINE_ROLE.SUPERVISOR) {
+      req.user = user;
+      next();
+      return;
     }
     if (
       user.role !== DEFINE_ROLE.SUPER_ADMIN &&
