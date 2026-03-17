@@ -193,12 +193,10 @@ const authController = {
 
   supervisorLogin: async (req, res) => {
     try {
-      const requestIP =
-        (req.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
-        req.socket?.remoteAddress ||
-        "";
+      const authHeader = req.headers.authorization || "";
+      const accessToken = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
 
-      const rs = await authService.supervisorLogin({ requestIP });
+      const rs = await authService.supervisorLogin({ accessToken });
       return res.status(200).json({ message: "Đăng nhập thành công", data: rs });
     } catch (error) {
       const status = error.status || 500;
