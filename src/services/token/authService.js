@@ -229,30 +229,27 @@ const authService = {
     });
   },
 
-  supervisorLogin: ({ requestIP }) => {
+  supervisorLogin: ({ accessToken }) => {
     return new Promise((resolve, reject) => {
       try {
-        const isDevelopment = process.env.NODE_ENV === "development";
-
-        const allowedIPs = (process.env.IP_SUPERVISOR || "")
-          .split(",")
-          .map((ip) => ip.trim())
-          .filter(Boolean);
-
-        if (!isDevelopment && allowedIPs.length > 0 && !allowedIPs.includes(requestIP)) {
-          return reject({ status: 403, message: "IP không được phép truy cập" });
+        if (!accessToken) {
+          return reject({ status: 401, message: "Token không được cung cấp" });
         }
 
-        const accessToken = tokenService.generateSupervisorToken({
-          _id: "supervisor",
-          userName: "supervisor",
-          role: DEFINE_ROLE.SUPERVISOR,
-        });
+        const decoded = tokenService.verifyToken(accessToken);
+
+        if (!decoded) {
+          return reject({ status: 401, message: "Token không hợp lệ hoặc đã hết hạn" });
+        }
+
+        if (decoded.role !== DEFINE_ROLE.SUPERVISOR) {
+          return reject({ status: 403, message: "Không có quyền truy cập" });
+        }
 
         return resolve({
           user: {
-            userName: "supervisor",
-            role: DEFINE_ROLE.SUPERVISOR,
+            userName: decoded.userName,
+            role: decoded.role,
           },
           accessToken,
         });
