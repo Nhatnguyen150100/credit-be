@@ -29,6 +29,9 @@ const authController = {
     try {
       const { userName, password } = req.body;
       const rs = await authService.login({ userName, password });
+      if(!rs.data) {
+        res.status(400).json({ message: rs.message });
+      }
       const accessToken = tokenService.generateToken({
         _id: rs.data._id,
         userName: rs.data.userName,
