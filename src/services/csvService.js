@@ -28,6 +28,7 @@ const csvService = {
             columns: true,
             skip_empty_lines: true,
             trim: true,
+            bom: true,
           });
         } catch (parseError) {
           return reject("File CSV không hợp lệ: " + parseError.message);
@@ -177,7 +178,7 @@ const csvService = {
         });
 
         return resolve({
-          data: csvString,
+          data: "\ufeff" + csvString,
           message: `Export thành công ${records.length} bản ghi`,
         });
       } catch (error) {
