@@ -266,14 +266,14 @@ const authService = {
 
         const user = await User.findOne({ userName });
         if (!user) {
-          return reject({
+          return resolve({
             message: "Tài khoản không tồn tại",
           });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-          return reject({
+          return resolve({
             message: "Mật khẩu không đúng",
           });
         }
