@@ -24,9 +24,23 @@ connectDB();
 startImportWorker();
 
 var app = express();
+
+const allowedOrigins = [
+  process.env.BASE_URL_CLIENT,
+  process.env.BASE_URL_DASHBOARD
+]
+
 app.use(
   cors({
-    origin: process.env.BASE_URL_CLIENT,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     preflightContinue: false,
