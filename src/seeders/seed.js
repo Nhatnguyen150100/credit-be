@@ -8,8 +8,6 @@ const seedAdmin = require("./admin_seeders");
 const connectDB = async () => {
   await mongoose.connect(process.env.DB_URL, {
     serverSelectionTimeoutMS: 10000,
-    // Helps with MongoDB Atlas SSL/TLS handshake issues (Node 18+ / OpenSSL 3)
-    tlsAllowInvalidCertificates: process.env.NODE_ENV !== "production",
   });
   console.info("Connected to MongoDB");
 };

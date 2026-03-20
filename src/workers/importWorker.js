@@ -90,6 +90,7 @@ export function startImportWorker() {
           columns: true,
           skip_empty_lines: true,
           trim: true,
+          bom: true,
         });
       } catch (parseErr) {
         await ImportJob.findByIdAndUpdate(jobId, {
